@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الماسح الضوئي</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.10.0/firebase-app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.10.0/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        #scanner-container { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: #000; }
+        #video { width: 100%; height: 100%; object-fit: cover; }
+        #scan-box { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%; max-width: 400px; height: 150px; border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 12px; box-shadow: 0 0 0 4000px rgba(0,0,0,0.6); transition: border-color 0.3s ease; }
+        #scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #a78bfa, transparent); animation: scanning 2s linear infinite; }
+        @keyframes scanning { 0% { top: 0; } 100% { top: calc(100% - 2px); } }
+        .scan-success { border-color: #4ade80 !important; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="bg-black">
+    <div id="scanner-container">
+        <video id="video" playsinline></video>
+        
+        <div id="scan-box" class="hidden">
+            <div id="scan-line"></div>
+        </div>
+
+        <div id="camera-off-overlay" class="absolute inset-0 bg-gray-900 flex flex-col gap-4 items-center justify-center text-center cursor-pointer">
+            <!-- CameraOffIcon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-16 h-16 text-gray-500"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><line x1="1" y1="1" x2="23" y2="23"></line><circle cx="12" cy="13" r="3"></circle></svg>
+            <p id="status-text" class="text-lg font-semibold text-gray-400">اضغط على الشاشة لتشغيل الكاميرا</p>
+        </div>
+        
+        <button id="close-button" onclick="window.close()" class="absolute top-4 right-4 bg-black/50 p-2 rounded-full text-white hover:bg-black/80 transition-colors">
+            <!-- XCircleIcon SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+        </button>
+        
+        <audio id="scan-sound" src="https://cdn.jsdelivr.net/gh/pixel-guy/pixel-assets/scan.mp3" preload="auto"></audio>
+    </div>
+
+    <script>
+        const videoEl = document.getElementById('video');
+        const statusTextEl = document.getElementById('status-text');
+        const scanBoxEl = document.getElementById('scan-box');
+        const cameraOffOverlayEl = document.getElementById('camera-off-overlay');
+        const scanSoundEl = document.getElementById('scan-sound');
+        
+        let codeReader = null;
+        let inactivityTimer = null;
+        let isCameraActive = false;
+
+        function getFirebaseConfigFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const config = {};
+            const requiredKeys = ['apiKey', 'authDomain', 'databaseURL', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'];
+            for (const key of requiredKeys) {
+                if (params.has(key)) {
+                    config[key] = params.get(key);
+                } else {
+                    return null; // A required key is missing
+                }
+            }
+            return config;
+        }
+
+        const firebaseConfig = getFirebaseConfigFromUrl();
+
+        if (firebaseConfig) {
+            try {
+                if (!firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+            } catch (error) {
+                console.error("Firebase initialization failed:", error);
+                statusTextEl.textContent = 'فشل الاتصال بالنظام.';
+            }
+        } else {
+             statusTextEl.textContent = 'خطأ في الإعدادات. لا يمكن الاتصال بالنظام.';
+        }
+
+        const stopCamera = () => {
+            if (codeReader) {
+                codeReader.reset();
+            }
+            if (videoEl && videoEl.srcObject) {
+                videoEl.srcObject.getTracks().forEach(track => track.stop());
+                videoEl.srcObject = null;
+            }
+            isCameraActive = false;
+            scanBoxEl.classList.add('hidden');
+            cameraOffOverlayEl.classList.remove('hidden');
+            statusTextEl.textContent = 'اضغط على الشاشة لتشغيل الكاميرا';
+            clearTimeout(inactivityTimer);
+        };
+
+        const resetInactivityTimer = () => {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(stopCamera, 20000); // 20 seconds
+        };
+
+        const startCamera = async () => {
+            if (!firebaseConfig) return;
+            
+            if (!codeReader) {
+                codeReader = new ZXing.BrowserMultiFormatReader();
+            }
+
+            statusTextEl.textContent = 'جاري تشغيل الكاميرا...';
+            
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                videoEl.srcObject = stream;
+                await videoEl.play();
+
+                isCameraActive = true;
+                scanBoxEl.classList.remove('hidden');
+                cameraOffOverlayEl.classList.add('hidden');
+                resetInactivityTimer();
+                
+                document.body.addEventListener('mousemove', resetInactivityTimer);
+                document.body.addEventListener('touchstart', resetInactivityTimer);
+
+                codeReader.decodeFromVideoDevice(undefined, videoEl, (result, err) => {
+                    if (result) {
+                        scanSoundEl.play();
+                        scanBoxEl.classList.add('scan-success');
+
+                        try {
+                            const db = firebase.database();
+                            db.ref('barcodeScanner/scannedCode').set({
+                                code: result.getText(),
+                                timestamp: Date.now()
+                            });
+                        } catch (e) {
+                             console.error("Firebase error", e);
+                        }
+
+                        setTimeout(() => {
+                           scanBoxEl.classList.remove('scan-success');
+                        }, 500);
+                        
+                        resetInactivityTimer();
+                    }
+                    if (err && !(err instanceof ZXing.NotFoundException)) {
+                        console.error(err);
+                        statusTextEl.textContent = 'حدث خطأ في الكاميرا.';
+                        stopCamera();
+                    }
+                });
+            } catch (err) {
+                console.error('Camera access error:', err);
+                statusTextEl.textContent = 'لم يتم السماح بالوصول إلى الكاميرا.';
+                isCameraActive = false;
+            }
+        };
+        
+        cameraOffOverlayEl.addEventListener('click', startCamera);
+        
+        window.addEventListener('beforeunload', stopCamera);
+    </script>
+</body>
+</html>
