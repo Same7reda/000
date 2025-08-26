@@ -1,0 +1,38 @@
+{
+  "name": "barcode-scanner-app",
+  "version": "1.0.0",
+  "description": "تطبيق ويب تقدمي للماسح الضوئي متصل بنظام إدارة المبيعات",
+  "main": "scanner.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server --port=8080 --entry-file=scanner.html",
+    "build": "echo 'No build step required for this static app'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "barcode",
+    "scanner",
+    "pwa",
+    "arabic",
+    "react",
+    "typescript",
+    "firebase"
+  ],
+  "author": "Sales Management System",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/barcode-scanner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/barcode-scanner/issues"
+  },
+  "homepage": "https://github.com/your-username/barcode-scanner#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
