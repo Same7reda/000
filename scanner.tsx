@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -32,22 +31,22 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, React.Dispatch<Re
 
 // --- Icons ---
 const PackageIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12.89 1.453a2.2 2.2 0 0 0-1.78 0l-6 3A2.2 2.2 0 0 0 4 6.425v11.15a2.2 2.2 0 0 0 1.11 1.972l6 3a2.2 2.2 0 0 0 1.78 0l6-3a2.2 2.2 0 0 0 1.11-1.972V6.425a2.2 2.2 0 0 0-1.11-1.972l-6-3Z"/><path d="m4.22 6.55 7.78 3.9 7.78-3.9"/><path d="M12 22.42V10.5"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M12.89 1.453a2.2 2.2 0 0 0-1.78 0l-6 3A2.2 2.2 0 0 0 4 6.425v11.15a2.2 2.2 0 0 0 1.11 1.972l6 3a2.2 2.2 0 0 0 1.78 0l6-3a2.2 2.2 0 0 0 1.11-1.972V6.425a2.2 2.2 0 0 0-1.11-1.972l-6-3Z"/><path d="m4.22 6.55 7.78 3.9 7.78-3.9"/><path d="M12 22.42V10.5"/></svg>
 );
 const QrCodeIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
 );
 const SearchIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
 );
 const ScanLineIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" {...props}><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" {...props}><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
 );
 const CameraOffIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" {...props}><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><line x1="1" y1="1" x2="23" y2="23"></line><circle cx="12" cy="13" r="3"></circle></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" {...props}><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><line x1="1" y1="1" x2="23" y2="23"></line><circle cx="12" cy="13" r="3"></circle></svg>
 );
 const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
 );
 
 
@@ -84,6 +83,9 @@ const ScannerView: React.FC<{ onProductFound: (product: Product) => void, localP
     useEffect(() => {
         scanSoundRef.current = new Audio("https://cdn.jsdelivr.net/gh/pixel-guy/pixel-assets/scan.mp3");
         codeReaderRef.current = new (window as any).ZXing.BrowserMultiFormatReader();
+        
+        startCamera(); // Auto-start camera on component mount
+
         return () => codeReaderRef.current?.reset();
     }, []);
 
@@ -96,14 +98,14 @@ const ScannerView: React.FC<{ onProductFound: (product: Product) => void, localP
                 await videoRef.current.play();
                 setStatus('active');
                 codeReaderRef.current.decodeFromVideoDevice(undefined, videoRef.current, (result: any, err: any) => {
-                    if (result) {
+                    if (result && !scanSuccess) {
                         setScanSuccess(true);
                         scanSoundRef.current?.play();
                         const foundProduct = localProducts.find(p => p.barcode === result.getText());
                         if (foundProduct) {
                             onProductFound(foundProduct);
                         }
-                        setTimeout(() => setScanSuccess(false), 500);
+                        setTimeout(() => setScanSuccess(false), 1000); // Prevent rapid re-scans
                     }
                 });
             }
@@ -123,7 +125,7 @@ const ScannerView: React.FC<{ onProductFound: (product: Product) => void, localP
                     {status === 'error' && <p>حدث خطأ. يرجى السماح بالوصول إلى الكاميرا.</p>}
                 </div>
             )}
-             <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-sm h-32 border-2 ${scanSuccess ? 'border-green-400' : 'border-white/80'} rounded-2xl transition-colors duration-300`}>
+             <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-sm h-32 border-4 ${scanSuccess ? 'border-green-400 shadow-2xl shadow-green-400/50' : 'border-white/80'} rounded-2xl transition-all duration-300`}>
                 <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent ${status === 'active' ? 'animate-scan' : ''}`} />
                  <style>{`@keyframes scan { 0% { top: 0; } 100% { top: 100%; } } .animate-scan { animation: scan 2s linear infinite; }`}</style>
             </div>
@@ -193,51 +195,66 @@ const BottomNav: React.FC<{ active: Page; onNavigate: (page: Page) => void }> = 
     );
 };
 
+const LoadingScreen: React.FC<{ statusText: string }> = ({ statusText }) => (
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-purple-700 to-blue-700 text-white">
+        <div className="text-center">
+            <QrCodeIcon className="w-24 h-24 mx-auto mb-6 text-white/80 animate-pulse" />
+            <h1 className="text-3xl font-bold mb-4">تطبيق الماسح الضوئي</h1>
+            <p className="text-lg text-white/70">{statusText}</p>
+        </div>
+    </div>
+);
+
 const App: React.FC = () => {
     const [activePage, setActivePage] = useState<Page>('products');
     const [localProducts, setLocalProducts] = useLocalStorage<Product[]>('scanner-products', []);
-    const [status, setStatus] = useState<'loading' | 'connected' | 'error'>('loading');
-    const [errorMsg, setErrorMsg] = useState('');
+    const [status, setStatus] = useState('initializing');
+    const [statusText, setStatusText] = useState('جاري التجهيز...');
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const config: Partial<FirebaseConfig> = {};
-        ['apiKey', 'authDomain', 'databaseURL', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'].forEach(key => {
-            if (params.has(key)) config[key as keyof FirebaseConfig] = params.get(key)!;
-        });
-
-        if (Object.keys(config).length < 7) {
-            setStatus('error');
-            setErrorMsg('بيانات الربط غير مكتملة. يرجى إعادة المسح من النظام الرئيسي.');
-            return;
-        }
-
-        try {
-            if (!(window as any).firebase.apps.length) {
-                (window as any).firebase.initializeApp(config);
-            }
-            const db = (window as any).firebase.database();
-            const productsRef = db.ref('syncedData/products');
-            
-            productsRef.on('value', (snapshot: any) => {
-                const data = snapshot.val();
-                if (data && Array.isArray(data)) {
-                    setLocalProducts(data);
-                }
-                setStatus('connected');
-            }, (error: any) => {
-                console.error(error);
-                setStatus('error');
-                setErrorMsg('فشل الاتصال بقاعدة البيانات. تحقق من الإعدادات.');
+        const initialize = async () => {
+            setStatusText('تحليل الإعدادات...');
+            const params = new URLSearchParams(window.location.search);
+            const config: Partial<FirebaseConfig> = {};
+            ['apiKey', 'authDomain', 'databaseURL', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'].forEach(key => {
+                if (params.has(key)) config[key as keyof FirebaseConfig] = params.get(key)!;
             });
 
-        } catch (e) {
-            console.error(e);
-            setStatus('error');
-            setErrorMsg('فشل تهيئة الاتصال. يرجى المحاولة مرة أخرى.');
-        }
+            if (Object.keys(config).length < 7) {
+                setStatusText('بيانات الربط غير مكتملة. يرجى إعادة المسح من النظام الرئيسي.');
+                setStatus('error');
+                return;
+            }
 
+            try {
+                setStatusText('الاتصال بـ Firebase...');
+                if (!(window as any).firebase.apps.length) {
+                    (window as any).firebase.initializeApp(config);
+                }
+                const db = (window as any).firebase.database();
+                const productsRef = db.ref('syncedData/products');
+                
+                setStatusText('جلب البيانات...');
+                productsRef.on('value', (snapshot: any) => {
+                    const data = snapshot.val();
+                    if (data && Array.isArray(data)) {
+                        setLocalProducts(data);
+                    }
+                    setStatus('connected');
+                }, (error: any) => {
+                    console.error(error);
+                    setStatusText('فشل الاتصال بقاعدة البيانات. تحقق من الإعدادات.');
+                    setStatus('error');
+                });
+
+            } catch (e) {
+                console.error(e);
+                setStatusText('فشل تهيئة الاتصال. يرجى المحاولة مرة أخرى.');
+                setStatus('error');
+            }
+        };
+        initialize();
     }, []);
 
     const handleProductFound = (product: Product) => {
@@ -245,11 +262,8 @@ const App: React.FC = () => {
         setActivePage('products');
     };
 
-    if (status === 'error') {
-        return <div className="p-8 text-center text-red-600 bg-red-50 h-screen flex flex-col justify-center items-center">{errorMsg}</div>;
-    }
-    if (status === 'loading' && localProducts.length === 0) {
-        return <div className="p-8 text-center text-gray-600 h-screen flex flex-col justify-center items-center">جاري الاتصال بالنظام وجلب البيانات...</div>;
+    if (status !== 'connected') {
+        return <LoadingScreen statusText={statusText} />;
     }
 
     return (
@@ -264,8 +278,55 @@ const App: React.FC = () => {
     );
 };
 
-const rootElement = document.getElementById('root');
-if (rootElement) {
+
+// A simple promise-based utility to wait for a global variable.
+const waitForGlobal = (name: string): Promise<any> => new Promise((resolve, reject) => {
+    let attempts = 0;
+    const maxAttempts = 100; // 100 * 50ms = 5 seconds timeout
+    const check = () => {
+        if ((window as any)[name]) {
+            resolve((window as any)[name]);
+        } else if (attempts < maxAttempts) {
+            attempts++;
+            setTimeout(check, 50);
+        } else {
+            reject(new Error(`'${name}' لم يتم تحميل المكتبة في الوقت المناسب.`));
+        }
+    };
+    check();
+});
+
+// Main application entry point
+async function main() {
+    const rootElement = document.getElementById('root');
+    if (!rootElement) {
+        console.error("Fatal Error: Root element not found.");
+        // Fallback UI in case React cannot mount
+        document.body.innerHTML = `<div style="text-align:center; padding-top: 50px; color: red;">فشل بدء التطبيق: العنصر الجذر مفقود.</div>`;
+        return;
+    }
+
     const root = ReactDOM.createRoot(rootElement);
-    root.render(<App />);
+
+    try {
+        // Wait for external libraries before attempting to render the main app
+        await Promise.all([
+            waitForGlobal('firebase'),
+            waitForGlobal('ZXing'),
+        ]);
+
+        // Once libraries are loaded, render the main React application
+        root.render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+        );
+    } catch (error) {
+        console.error("Failed to initialize scanner app:", error);
+        // If libraries fail to load, show an error message using the same React root
+        root.render(<LoadingScreen statusText={`فشل تحميل التطبيق: ${error}. يرجى التحقق من اتصال الإنترنت.`} />);
+    }
 }
+
+// Run the main entry point
+main();
