@@ -1,0 +1,32 @@
+
+{
+  "name": "الماسح الضوئي | نظام الخالد",
+  "short_name": "الماسح",
+  "start_url": "/scanner.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6d28d9",
+  "description": "تطبيق ويب ماسح ضوئي متصل بنظام مبيعات الخالد.",
+  "icons": [
+    {
+      "src": "https://www.gstatic.com/images/branding/product/1x/google_cloud_48dp.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.gstatic.com/images/branding/product/1x/google_cloud_96dp.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.gstatic.com/images/branding/product/1x/google_cloud_128dp.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "https://www.gstatic.com/images/branding/product/2x/google_cloud_128dp.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}
