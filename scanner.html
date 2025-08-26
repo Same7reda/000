@@ -11,6 +11,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.10.0/firebase-app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.10.0/firebase-database.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
+    <!-- Add Babel to transpile TSX in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
         body { font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -38,6 +40,7 @@
         </div>
       </div>
     </div>
-    <script type="module" src="scanner.tsx"></script>
+    <!-- Use text/babel to let Babel transpile the TSX file -->
+    <script type="text/babel" src="scanner.tsx"></script>
 </body>
 </html>
